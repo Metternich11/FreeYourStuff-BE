@@ -13,6 +13,7 @@ module.exports = {
   },
   plugins: ['json'],
   rules: {
+    semi: 'error',
     indent: ['error', 2],
     'keyword-spacing': 'error',
     'linebreak-style': 'error',
@@ -22,4 +23,4 @@ module.exports = {
     'no-undef': 'off',
     'no-unused-vars': 'off'
   }
-}
+};

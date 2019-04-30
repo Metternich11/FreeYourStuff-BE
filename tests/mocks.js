@@ -10,7 +10,11 @@ const mocks = {
       lng: 2.1989088
     },
     address: 'Carrer de Ramon Turró, 148, 08005 Barcelona, Spain'
+  },
+  user: {
+    username: 'McUsername',
+    password: 'Bananarama'
   }
-}
+};
 
-module.exports = mocks
+module.exports = mocks;
