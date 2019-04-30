@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const stuffSchema = mongoose.Schema({
-
   time: {
     type: Date,
     default: Date.now()

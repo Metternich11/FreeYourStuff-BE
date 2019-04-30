@@ -19,22 +19,23 @@ module.exports.update = async (ctx, next) => {
   let _id = ctx.params.id
   let stuff = ctx.request.body
   await Stuff.findOneAndUpdate(
-    {_id},
-    {$set:
-      {
+    { _id },
+    {
+      $set: {
         time: stuff.time,
         picture: stuff.picture,
         tags: stuff.tags
       }
     },
-    {new: true})
+    { new: true }
+  )
   ctx.status = 204
   await next()
 }
 
 module.exports.delete = async (ctx, next) => {
   let _id = ctx.params.id
-  await Stuff.remove({_id})
+  await Stuff.remove({ _id })
   ctx.status = 204
   await next()
 }
