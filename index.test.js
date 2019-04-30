@@ -49,7 +49,6 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
 
   test('should respond with HTTP 204 – /delete', async () => {
     let idNumber;
-
     await request(app)
       .post('/create')
       .send(mocks.stuff)
