@@ -11,8 +11,8 @@ const router = require('./router')
 
 const mongoose = require('mongoose')
 
-const port = process.env.PORT || 5000;
-let server;
+const port = process.env.PORT || 5000
+let server
 
 function create () {
   const options = {
@@ -30,15 +30,17 @@ function create () {
     .use(errorHandler)
     .use(router.routes())
 
-  return server = app.listen(port, () => {console.log(`🚀 Server Running on ${port}`)});
+  return (server = app.listen(port, () => {
+    console.log(`🚀 Server Running on ${port}`)
+  }))
 }
 
 async function close () {
-  await mongoose.disconnect();
-  await new Promise(resolve => server.close(resolve));
+  await mongoose.disconnect()
+  await new Promise(resolve => server.close(resolve))
 }
 
 module.exports = {
   create,
-  close,
-};
+  close
+}

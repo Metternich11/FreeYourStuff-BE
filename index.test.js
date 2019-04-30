@@ -8,7 +8,7 @@ afterAll(async () => {
   // This has been temporarily commented out because
   // performing a GET request to /getStuff inside the /update test was
   // returning an empty array.
-  // await mongoose.connection.db.dropDatabase()
+  await mongoose.connection.db.dropDatabase()
   App.close()
 })
 
