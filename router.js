@@ -10,5 +10,6 @@ router.delete('/delete/:id', stuffControllers.delete);
 
 // Newly Added Endpoints - Remove this comment
 router.post('/signUp', userControllers.signUp);
+router.post('/signIn', userControllers.signIn);
 
 module.exports = router;

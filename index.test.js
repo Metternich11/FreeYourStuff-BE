@@ -62,14 +62,18 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
       .expect(204);
   });
 
-  test('should respond with HTTP 200 – /signUp', async () => {
+  test('should respond with HTTP 201 – /signUp', async () => {
     await request(app)
       .post('/signUp')
       .send(mocks.user)
-      .expect(200)
-      .then(res => {
-        expect(res.body).toMatchObject(mocks.user);
-      });
+      .expect(201);
+  });
+
+  test('should respond with HTTP 200 – /signIn', async () => {
+    await request(app)
+      .post('/signIn')
+      .send(mocks.user)
+      .expect(200);
   });
 });
 
