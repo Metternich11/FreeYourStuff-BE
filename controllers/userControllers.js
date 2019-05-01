@@ -19,18 +19,21 @@ module.exports.signUp = async (ctx, next) => {
 };
 
 module.exports.signIn = async (ctx, next) => {
+  const username = ctx.request.body.username;
+  const password = ctx.request.body.password;
+  if (!username) return await next();
 
-  const findUser = async function (params) {
-    try {
-      return await User.find(params);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const userDb = await findUser({ username: ctx.request.body.username });
-  console.log('USERDB: ', userDb);
-  // let result = await bcrypt.compare(ctx.request.body.password, userDb.password);
-  // console.log('IS IT THE SAME?:', result);
+  const userFromDb = await User.findOne({ username: username });
+  let result = await bcrypt.compare(password, userFromDb.password);
+  console.log('🎁 RESULT: ', result);
+
+  ctx.response.body = userFromDb;
+
+  if (!ctx.response.body) {
+    ctx.status = 401;
+    return;
+  }
   ctx.status = 200;
-  // await next();
+
+  await next();
 };
