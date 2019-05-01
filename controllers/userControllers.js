@@ -2,10 +2,12 @@ const User = require('../db/userModel');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-const secret = 'oJXOIYJ=?)Uoij_hdjdjdj9'
 // Required for password hashing
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
+// Required for JSON Web Token implementation
+const secret = 'oJXOIYJ=?)Uoij_hdjdjdj9';
 
 module.exports.signUp = async (ctx, next) => {
   const user = {
@@ -24,19 +26,24 @@ module.exports.signIn = async (ctx, next) => {
   const userDb = await User.findOne({ username: ctx.request.body.username });
   if (!userDb) {
     ctx.status = 404;
-    ctx.response.body = {message: 'not found'};
-  }
-  else {
-    let result = await bcrypt.compare(ctx.request.body.password, userDb.password);
+    ctx.response.body = { message: 'not found' };
+  } else {
+    let result = await bcrypt.compare(
+      ctx.request.body.password,
+      userDb.password
+    );
     if (result) {
       ctx.status = 200;
 
-      const token = await jwt.sign({ username: ctx.request.body.username }, secret);
-      ctx.response.body = {token: token};
-    } 
-    else {
+      const token = await jwt.sign(
+        { username: ctx.request.body.username },
+        secret,
+        { expiresIn: '4h' }
+      );
+      ctx.response.body = { token: token };
+    } else {
       ctx.status = 404;
-      ctx.response.body = {message: 'wrong password'};
+      ctx.response.body = { message: 'wrong password' };
     }
   }
   await next();
@@ -46,10 +53,8 @@ module.exports.myStuff = async (ctx, next) => {
   const token = ctx.header.auth;
   try {
     const decoded = jwt.verify(token, secret);
-    console.log(decoded);
-    ctx.status = 200;    
-  } catch(err) {
-    console.log(err);
+    ctx.status = 200;
+  } catch (err) {
     ctx.status = 401;
   }
-}
+};

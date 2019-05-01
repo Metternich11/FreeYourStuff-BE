@@ -21,6 +21,10 @@ const stuffSchema = mongoose.Schema({
   updated: {
     type: Number,
     default: 0
+  },
+  userID: {
+    type: String,
+    required: true
   }
 });
 

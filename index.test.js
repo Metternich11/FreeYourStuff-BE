@@ -76,24 +76,31 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
       .post('/signIn')
       .send(mocks.user)
       .expect(200)
-      .then(res => token = res.body.token);
+      .then(res => (token = res.body.token));
   });
 
   test('should respond with HTTP 404 – /signIn', async () => {
     await request(app)
       .post('/signIn')
       .send(mocks.badUser)
-      .expect(404)
+      .expect(404);
   });
 
-  test('should respond with HTTP 200 – /me', async () => {
+  test('should respond with HTTP 200 if the user is authorised – /me', async () => {
     await request(app)
       .get('/me')
       .set('auth', token)
-      .expect(200)
+      .expect(200);
+  });
+
+  test('should respond with HTTP 401 if the user is unauthorised – /me', async () => {
+    await request(app)
+      .get('/me')
+      .set('auth', mocks.fakeToken)
+      .expect(401);
   });
 });
 
-// describe('⭐️ SIGN-UP /signUp', () => {
-//   test.todo('should ');
-// });
+describe('⭐️  /signUp', () => {
+  test.todo('should ');
+});

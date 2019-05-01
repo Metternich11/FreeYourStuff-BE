@@ -18,7 +18,8 @@ const mocks = {
   badUser: {
     username: 'H4xx0r',
     password: 'qwertz'
-  }
+  },
+  fakeToken: 'notReal'
 };
 
 module.exports = mocks;
