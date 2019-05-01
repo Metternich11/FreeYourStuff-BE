@@ -51,10 +51,7 @@ module.exports.signIn = async (ctx, next) => {
 
 module.exports.myStuff = async (ctx, next) => {
   const token = ctx.header.auth;
-  try {
-    const decoded = jwt.verify(token, secret);
-    ctx.status = 200;
-  } catch (err) {
-    ctx.status = 401;
-  }
+  const decoded = jwt.verify(token, secret, (err, decoded) => {
+    ctx.status = err ? 401 : 200;
+  });
 };
