@@ -46,3 +46,9 @@ module.exports.signIn = async (ctx, next) => {
   }
   await next();
 };
+
+module.exports.myStuff = async (ctx, next) => {
+  // const token = ctx.body.token;
+  console.log(ctx.body);
+  ctx.status =200;
+}

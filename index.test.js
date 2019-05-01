@@ -77,7 +77,6 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
       .send(mocks.user)
       .expect(200)
       .then(res => token = res.body.token);
-    console.log(token);
   });
 
   test('should respond with HTTP 404 – /signIn', async () => {
@@ -85,6 +84,13 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
       .post('/signIn')
       .send(mocks.badUser)
       .expect(404)
+  });
+
+  test('should respond with HTTP 200 – /me', async () => {
+    await request(app)
+      .get('/me')
+      .set('Authorization', token)
+      .expect(200)
   });
 });
 
