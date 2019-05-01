@@ -17,6 +17,7 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
       .then(res => {
         expect(Array.isArray(res.body)).toBe(true);
       });
+      console.log('1')
   });
 
   test('should respond with HTTP 200 – /create', async () => {
@@ -67,18 +68,23 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
       .post('/signUp')
       .send(mocks.user)
       .expect(201);
-    console.log('1.')
   });
 
   test('should respond with HTTP 200 – /signIn', async () => {
-    console.log('2.')
     await request(app)
       .post('/signIn')
       .send(mocks.user)
       .expect(200);
   });
+
+  test('should respond with HTTP 404 – /signIn', async () => {
+    await request(app)
+      .post('/signIn')
+      .send(mocks.badUser)
+      .expect(404);
+  });
 });
 
-describe('⭐️ SIGN-UP /signUp', () => {
-  test.todo('should ');
-});
+// describe('⭐️ SIGN-UP /signUp', () => {
+//   test.todo('should ');
+// });

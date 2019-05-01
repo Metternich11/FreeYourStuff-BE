@@ -14,6 +14,10 @@ const mocks = {
   user: {
     username: 'McUsername',
     password: 'Bananarama'
+  },
+  badUser: {
+    username: 'H4xx0r',
+    password: 'qwertz'
   }
 };
 

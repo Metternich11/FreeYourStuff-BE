@@ -13,24 +13,27 @@ module.exports.signUp = async (ctx, next) => {
   const password = await bcrypt.hash(user.password, saltRounds);
   user.password = password;
   let newUser = await new User(user);
-  newUser.save();
+  await newUser.save();
   ctx.status = 201;
   await next();
 };
 
 module.exports.signIn = async (ctx, next) => {
-
-  const findUser = async function (params) {
-    try {
-      return await User.find(params);
-    } catch (err) {
-      console.log(err);
+  const userDb = await User.findOne({ username: ctx.request.body.username });
+  if (!userDb) {
+    ctx.status = 404;
+    ctx.response.body = 'user not found';
+  }
+  else {
+    let result = await bcrypt.compare(ctx.request.body.password, userDb.password);
+    if (result) {
+      ctx.status = 200;
+      ctx.response.body = 'yeah';
+    } 
+    else {
+      ctx.status = 404;
+      ctx.response.body = 'wrong password';
     }
-  };
-  const userDb = await findUser({ username: ctx.request.body.username });
-  console.log('USERDB: ', userDb);
-  // let result = await bcrypt.compare(ctx.request.body.password, userDb.password);
-  // console.log('IS IT THE SAME?:', result);
-  ctx.status = 200;
-  // await next();
+  }
+  await next();
 };
