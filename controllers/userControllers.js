@@ -2,6 +2,7 @@ const User = require('../db/userModel');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
+const secret = 'oJXOIYJ=?)Uoij_hdjdjdj9'
 // Required for password hashing
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -30,13 +31,7 @@ module.exports.signIn = async (ctx, next) => {
     if (result) {
       ctx.status = 200;
 
-      const token = await jwt.sign({ username: ctx.request.body.username }, 'secretPhrase');
-      // const splitToken = token.split('.');
-      // ctx.response.body = {
-      //   header: splitToken[0],
-      //   payload: splitToken[1],
-      //   signature: splitToken[2]
-      // };
+      const token = await jwt.sign({ username: ctx.request.body.username }, secret);
       ctx.response.body = {token: token};
     } 
     else {
@@ -48,7 +43,13 @@ module.exports.signIn = async (ctx, next) => {
 };
 
 module.exports.myStuff = async (ctx, next) => {
-  // const token = ctx.body.token;
-  console.log(ctx.body);
-  ctx.status =200;
+  const token = ctx.header.auth;
+  try {
+    const decoded = jwt.verify(token, secret);
+    console.log(decoded);
+    ctx.status = 200;    
+  } catch(err) {
+    console.log(err);
+    ctx.status = 401;
+  }
 }

@@ -89,7 +89,7 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
   test('should respond with HTTP 200 – /me', async () => {
     await request(app)
       .get('/me')
-      .set('Authorization', token)
+      .set('auth', token)
       .expect(200)
   });
 });
