@@ -5,7 +5,7 @@ const mocks = require('./tests/mocks');
 const mongoose = require('mongoose');
 
 afterAll(async () => {
-  // await mongoose.connection.db.dropDatabase();
+  await mongoose.connection.db.dropDatabase();
   App.close();
 });
 
@@ -73,8 +73,7 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
     await request(app)
       .post('/signIn')
       .send(mocks.user)
-      .expect(200)
-      .then(response => console.log(response.body));
+      .expect(200);
   });
 });
 

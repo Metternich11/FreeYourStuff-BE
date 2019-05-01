@@ -1,5 +1,6 @@
 const User = require('../db/userModel');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 // Required for password hashing
 const bcrypt = require('bcrypt');
@@ -13,7 +14,7 @@ module.exports.signUp = async (ctx, next) => {
   const password = await bcrypt.hash(user.password, saltRounds);
   user.password = password;
   let newUser = await new User(user);
-  newUser.save();
+  await newUser.save();
   ctx.status = 201;
   await next();
 };
