@@ -1,5 +1,6 @@
 const User = require('../db/userModel');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 // Required for password hashing
 const bcrypt = require('bcrypt');
