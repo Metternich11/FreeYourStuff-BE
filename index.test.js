@@ -4,6 +4,8 @@ const request = require('supertest');
 const mocks = require('./tests/mocks');
 const mongoose = require('mongoose');
 
+let token = '';
+
 afterAll(async () => {
   await mongoose.connection.db.dropDatabase();
   App.close();
@@ -17,7 +19,6 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
       .then(res => {
         expect(Array.isArray(res.body)).toBe(true);
       });
-      console.log('1')
   });
 
   test('should respond with HTTP 200 – /create', async () => {
@@ -74,14 +75,16 @@ describe('⭐️ ROUTES: HTTP Responses', () => {
     await request(app)
       .post('/signIn')
       .send(mocks.user)
-      .expect(200);
+      .expect(200)
+      .then(res => token = res.body.token);
+    console.log(token);
   });
 
   test('should respond with HTTP 404 – /signIn', async () => {
     await request(app)
       .post('/signIn')
       .send(mocks.badUser)
-      .expect(404);
+      .expect(404)
   });
 });
 
