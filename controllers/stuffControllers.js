@@ -1,4 +1,6 @@
 const Stuff = require('../db/stuffModel');
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 module.exports.getAll = async (ctx, next) => {
   let stuffs = await Stuff.find();
@@ -8,7 +10,12 @@ module.exports.getAll = async (ctx, next) => {
 };
 
 module.exports.create = async (ctx, next) => {
+  const token = ctx.request.header.auth;
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+
+  ctx.request.body.userID = decoded.userID;
   let stuff = await new Stuff(ctx.request.body);
+
   stuff.save();
   ctx.body = stuff;
   ctx.status = 200;

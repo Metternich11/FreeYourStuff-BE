@@ -6,9 +6,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-// Required for JSON Web Token implementation
-const secret = 'oJXOIYJ=?)Uoij_hdjdjdj9';
-
 module.exports.signUp = async (ctx, next) => {
   const user = {
     username: ctx.request.body.username,
@@ -36,8 +33,8 @@ module.exports.signIn = async (ctx, next) => {
       ctx.status = 200;
 
       const token = await jwt.sign(
-        { username: ctx.request.body.username },
-        secret,
+        { userID: userDb._id },
+        process.env.JWT_SECRET,
         { expiresIn: '4h' }
       );
       ctx.response.body = { token: token };
@@ -51,7 +48,7 @@ module.exports.signIn = async (ctx, next) => {
 
 module.exports.myStuff = async (ctx, next) => {
   const token = ctx.header.auth;
-  const decoded = jwt.verify(token, secret, (err, decoded) => {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     ctx.status = err ? 401 : 200;
   });
 };
